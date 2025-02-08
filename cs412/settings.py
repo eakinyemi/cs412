@@ -27,7 +27,8 @@ SECRET_KEY = 'django-insecure-x(e4h!+^4=7rfji(#o9p*ox7+@r+4_-$^c5u=5y-((oug_-a31
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cs-webapps.bu.edu']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cs-webapps.bu.edu']
+
 
 
 # Application definition
@@ -133,8 +134,15 @@ import socket
 CS_DEPLOYMENT_HOSTNAME = 'cs-webapps.bu.edu'
 
 if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
+    FORCE_SCRIPT_NAME = '/eakinyem'
     STATIC_URL = '/eakinyem/static/'
     MEDIA_URL = '/eakinyem/media/'
+
+else:
+    FORCE_SCRIPT_NAME = '' 
+    STATIC_URL = '/static/'
+    MEDIA_URL = '/media/'
+    
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
