@@ -137,12 +137,13 @@ if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
     FORCE_SCRIPT_NAME = '/eakinyem'
     STATIC_URL = '/eakinyem/static/'
     MEDIA_URL = '/eakinyem/media/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 else:
     FORCE_SCRIPT_NAME = '' 
     STATIC_URL = '/static/'
     MEDIA_URL = '/media/'
-    
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
