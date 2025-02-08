@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+nav a {
+    margin: 10px;
+    text-decoration: none;
+    color: blue;
+}
+
+img {
+    width: 50vw;
+    height: auto;
+    margin: 10px;
+    object-fit: cover;
+}
+ul {
+    text-align: left;
+    list-style-type: none;    
+}
+
+li {
+    text-align: left;  
+    margin-bottom: 2rem; 
+}
