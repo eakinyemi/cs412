@@ -121,28 +121,22 @@ USE_TZ = True
 
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = 'static/' 
+STATIC_URL = 'static/' # note: no leading slash!
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-MEDIA_URL= "media/"  
+MEDIA_URL= "media/"  # note: no leading slash!
 
 import socket
 CS_DEPLOYMENT_HOSTNAME = 'cs-webapps.bu.edu'
 
 if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
-    FORCE_SCRIPT_NAME = '/eakinyem'
     STATIC_URL = '/eakinyem/static/'
     MEDIA_URL = '/eakinyem/media/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-else:
-    FORCE_SCRIPT_NAME = '' 
-    STATIC_URL = '/static/'
-    MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
