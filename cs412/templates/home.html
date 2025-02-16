@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to CS412</title>
+</head>
+<body>
+    <h1>Welcome to CS412 Django Project</h1>
+    <p>Choose a page to visit:</p>
+    <ul>
+        <li><a href="{% url 'restaurant:main' %}">Restaurant</a></li>
+        <li><a href="{% url 'quotes:base' %}">Quotes</a></li>
+    </ul>
+</body>
+</html>
