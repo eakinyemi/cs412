@@ -1,3 +1,7 @@
+"""
+URL routing for the mini_fb application.
+"""
+
 from django.urls import path
 from .views import ShowAllProfilesView, ShowProfilePageView
 
