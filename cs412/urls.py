@@ -23,6 +23,7 @@ urlpatterns = [
     path('', home, name='home'),
     path('quotes/', include('cs412.quotes.urls')),  
     path('restaurant/', include('cs412.restaurant.urls')),  
+    path('mini_fb/', include('cs412.mini_fb.urls')),
 ]
 
 
