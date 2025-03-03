@@ -1,0 +1,80 @@
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #ececff;
+}
+
+/* Layout Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    text-align: left;
+}
+
+/* Header */
+header {
+    width: 100%;
+    background-color: #4A3FCF;
+    color: white;
+    padding: 2vw;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Navigation */
+nav {
+    width: 100%;
+    background-color: #4A3FCF;
+    padding: 2vw;
+    display: flex;
+    flex-direction: column;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+    font-size: 18px;
+}
+
+nav a:hover {
+    color: #b8b8ba;
+    border-radius: 5px;
+}
+
+/* Main Content */
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Profile Cards */
+.profile-card {
+    background-color: #21187D;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 150px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: 10px;
+}
+
+.profile-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.profile-card h3 {
+    font-size: 14px;
+    margin-top: 8px;
+    color: white;
+    border-radius: 5px;
+}

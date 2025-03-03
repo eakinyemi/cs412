@@ -2,17 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniFacebook</title>
     {% load static %}
-    <title>Mini Facebook</title>
-    <link rel="stylesheet" href="{% static 'CSS/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'CSS/profile_styles.css' %}">
 </head>
 <body>
-    <header><h1>Mini Facebook</h1></header>
-    <nav>
-        <a href="{% url 'mini_fb:show_all_profiles' %}">All Profiles</a>
-    </nav>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    <div class="container">
+        <!-- Header Section -->
+        <header>
+            <h1>MiniFacebook</h1>
+        </header>
+
+        <!-- Navigation Bar -->
+        <nav>
+            <a href="{% url 'mini_fb:show_all_profiles' %}">All Profiles</a>
+            <a href="{% url 'mini_fb:show_profile' request.user.profile.pk %}">My Profile</a>
+            <a href="{% url 'mini_fb:create_status_form' request.user.profile.pk %}">Create Status Message</a>
+        </nav>
+
+        <!-- Main Content Section -->
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+    </div>
 </body>
 </html>

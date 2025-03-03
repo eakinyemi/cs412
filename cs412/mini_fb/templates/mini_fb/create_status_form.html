@@ -1,0 +1,18 @@
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<h1>Post a New Status</h1>
+
+<!-- Status Message Form -->
+<form action="{%url'mini_fb:create_status_form' }" method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}  <!-- Automatically renders input fields -->
+    </table>
+    <button type="submit">Post Status</button>
+</form>
+
+<!-- Back to Profile -->
+<a href="{% url 'mini_fb:show_profile' request.user.profile.pk %}">Back to Profile</a>
+
+{% endblock %}

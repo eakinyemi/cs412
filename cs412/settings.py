@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cs412.quotes',
     'cs412.restaurant',
-    'cs412.mini_fb',
 ]
 
 MIDDLEWARE = [

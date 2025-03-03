@@ -1,11 +1,21 @@
-{% extends "base.html" %}
+{% extends "mini_fb/base.html" %}
 
 {% load static %}
 
 {% block content %}
-    <h2>{{ object.first_name }} {{ object.last_name }}</h2>
-    <p>City: {{ object.city }}</p>
-    <p>Email: {{ object.email }}</p>
-    <img src="{{ object.profile_image_url }}" width="300">
-    <a href="{% url 'show_all_profiles' %}">Back to all profiles</a>
+<div class="profile-container">
+    <div class="profile-header">
+        <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
+    </div>
+    <div class="profile-content">
+        <img class="profile-image" src="{{ profile.profile_image_url }}" alt="{{ profile.first_name }}'s Profile Picture">
+        <div class="profile-details">
+            <p><strong>City:</strong> {{ profile.city }}</p>
+            <p><strong>Email:</strong> {{ profile.user.email }}</p>
+        </div>
+    </div>
+    <div class="profile-footer">
+        <a class="back-button" href="{% url 'mini_fb:show_all_profiles' %}">Back to all profiles</a>
+    </div>
+</div>
 {% endblock %}

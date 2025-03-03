@@ -3,6 +3,7 @@ Defines the Profile model for the mini_fb application, representing user profile
 """
 
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Profile(models.Model):
@@ -16,12 +17,39 @@ class Profile(models.Model):
         email (str): User's email address.
         profile_image_url (str): URL to the user's profile image.
     """
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile",  default=1)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
-    email = models.EmailField()
-    profile_image_url = models.URLField()
+    email = models.EmailField(unique=True)
+    profile_image_url =  models.URLField(blank=True, null=True)
+    
 
     def __str__(self):
         """Return a string representation of the profile."""
         return f"{self.first_name} {self.last_name}"
+    def get_status_messages(self):
+        """
+        Return a queryset of status messages associated with the profile.
+        
+        Returns:
+            QuerySet: Status messages associated with the profile.
+        """
+        return self.statusmessage_set.all()
+    
+class StatusMessage(models.Model):
+    """
+    Model representing a user's status message.
+    
+    Attributes:
+        profile (Profile): Profile associated with the status message.
+        message (str): User's status message.
+        timestamp (datetime): Date and time the status message was created.
+    """
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    message  = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        """Return a string representation of the status message."""
+        return f"{self.profile}: {self.status_message}"
