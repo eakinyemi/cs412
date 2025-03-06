@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'cs412.quotes',
     'cs412.restaurant',
     'cs412.mini_fb',
+    'cs412.blog',
 ]
 
 MIDDLEWARE = [
