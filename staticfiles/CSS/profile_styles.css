@@ -1,0 +1,149 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #21187D;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container Styles */
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #1877f2;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+nav a:hover {
+    background-color: #166fe5;
+    border-radius: 5px;
+}
+
+/* Profile Page */
+.profile-header {
+    text-align: center;
+    padding: 20px;
+    background-color: #1877f2;
+    color: white;
+    border-radius: 8px;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-details {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.profile-details img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 3px solid #1877f2;
+}
+
+.profile-status {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+}
+
+.profile-status h2 {
+    text-align: center;
+    color: #1877f2;
+}
+
+.profile-status article {
+    background: #e3f2fd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-status article strong {
+    color: #21187D;
+}
+
+.profile-status p {
+    color: #333;
+    font-size: 14px;
+}
+
+/* Profile Cards on Show All Profiles Page */
+.profile-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.profile-card {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 180px;
+}
+
+.profile-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #1877f2;
+}
+
+.profile-card h3 {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #1c1e21;
+}
+
+/* Buttons */
+button,
+input[type="submit"] {
+    background-color: #1877f2;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #166fe5;
+}
