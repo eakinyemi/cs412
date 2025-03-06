@@ -22,6 +22,7 @@
                 <a href="{% url 'mini_fb:create_status_form' request.user.profile.pk %}">Create Status Message</a>
             {% else %}
                 <a href="{% url 'mini_fb:show_all_profiles' %}">All Profiles</a>
+                <a href="{% url 'mini_fb:create_profile' %}">Create Profile</a>
             {% endif %}
         </nav>
 

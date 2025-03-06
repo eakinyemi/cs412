@@ -7,7 +7,7 @@ from django.views.generic import DetailView, ListView, CreateView
 from django.shortcuts import render
 from django.urls import reverse
 from .models import Profile
-from .forms import CreateStatusMessageForm
+from .forms import CreateProfileForm, CreateStatusMessageForm
 
 # Create your views here.
 class ShowAllProfilesView(ListView):
@@ -36,6 +36,20 @@ class ShowProfilePageView(DetailView):
         if pk:
             return Profile.objects.get(pk=pk)
         return self.request.user.profile
+    
+class CreateProfileView(CreateView):
+    """View to create a new Profile."""
+    form_class = CreateProfileForm
+    template_name = 'mini_fb/create_profile.html'
+    
+    def form_valid(self, form):
+        """Set the user automatically before saving."""
+        form.instance.user = self.request.user  # Assign logged-in user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        """Redirect to the new profile page after creation."""
+        return reverse('mini_fb:show_profile', kwargs={'pk': self.object.pk})
     
 class CreateStatusMessageView(CreateView):
     """A view to create a new StatusMessage and associate it with a Profile."""
