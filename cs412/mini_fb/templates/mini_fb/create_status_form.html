@@ -4,12 +4,12 @@
 <h1>Post a New Status</h1>
 
 <!-- Status Message Form -->
-<form action="{%url'mini_fb:create_status_form' }" method="POST">
+<form method="POST" action="{% url 'mini_fb:create_status_form' profile.pk %}">
     {% csrf_token %}
     <table>
         {{ form.as_table }}  <!-- Automatically renders input fields -->
     </table>
-    <button type="submit">Post Status</button>
+    <input type="submit" name="submit" value="submit">
 </form>
 
 <!-- Back to Profile -->

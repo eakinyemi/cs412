@@ -4,6 +4,7 @@ Defines the Profile model for the mini_fb application, representing user profile
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your models here.
 class Profile(models.Model):
@@ -28,18 +29,16 @@ class Profile(models.Model):
     def __str__(self):
         """Return a string representation of the profile."""
         return f"{self.first_name} {self.last_name}"
-    def get_status_messages(self):
-        """
-        Return a queryset of status messages associated with the profile.
-        
-        Returns:
-            QuerySet: Status messages associated with the profile.
-        """
-        return self.statusmessage_set.all()
-    
+    def get_all_status_messages(self):
+        """Return all status messages associated with the profile."""
+        return StatusMessage.objects.filter(profile=self)
+    def get_absolute_url(self):
+        """Return the URL to access a particular profile instance."""
+        return reverse('mini_fb:show_profile', kwargs={'pk': self.profile.pk})
+
 class StatusMessage(models.Model):
     """
-    Model representing a user's status message.
+        Model representing a user's status message.
     
     Attributes:
         profile (Profile): Profile associated with the status message.
@@ -50,6 +49,9 @@ class StatusMessage(models.Model):
     message  = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    def get_absolute_url(self):
+        return reverse('mini_fb:show_profile', kwargs={self.profile.pk})
+
     def __str__(self):
         """Return a string representation of the status message."""
-        return f"{self.profile}: {self.status_message}"
+        return f"{self.profile}: {self.message}"

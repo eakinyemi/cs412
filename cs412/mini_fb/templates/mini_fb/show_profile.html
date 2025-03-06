@@ -1,21 +1,38 @@
-{% extends "mini_fb/base.html" %}
+{% extends 'mini_fb/base.html' %}
 
 {% load static %}
 
 {% block content %}
-<div class="profile-container">
-    <div class="profile-header">
-        <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
-    </div>
-    <div class="profile-content">
-        <img class="profile-image" src="{{ profile.profile_image_url }}" alt="{{ profile.first_name }}'s Profile Picture">
-        <div class="profile-details">
+<div class="profile-header">
+    <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
+</div>
+
+<main class="profile-container">
+    <section class="profile-details">
+        {% if profile.profile_image_url %}
+            <img src="{{ profile.profile_image_url }}" alt="{{ profile.first_name }}'s Profile Picture">
+        {% endif %}
+        <div>
             <p><strong>City:</strong> {{ profile.city }}</p>
             <p><strong>Email:</strong> {{ profile.user.email }}</p>
         </div>
-    </div>
-    <div class="profile-footer">
-        <a class="back-button" href="{% url 'mini_fb:show_all_profiles' %}">Back to all profiles</a>
-    </div>
-</div>
+    </section>
+
+    <section class="profile-status">
+        <h2>Status Messages</h2>
+        {% if profile.get_all_status_messages %}
+            {% for status in profile.get_all_status_messages %}
+            <article>
+                <div>
+                    <strong>Posted at {{ status.timestamp }}</strong>
+                    <p>{{ status.message }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        {% else %}
+            <p>No status messages available.</p>
+        {% endif %}
+    </section>
+</main>
+
 {% endblock %}

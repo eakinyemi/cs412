@@ -1,5 +1,5 @@
 from django import forms
-from .models import StatusMessage
+from .models import Profile, StatusMessage
 
 class CreateStatusMessageForm(forms.ModelForm):
     """A form for creating status messages."""

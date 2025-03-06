@@ -6,7 +6,7 @@ View definitions for the mini_fb application.
 from django.views.generic import DetailView, ListView, CreateView
 from django.shortcuts import render
 from django.urls import reverse
-from .models import StatusMessage, Profile
+from .models import Profile
 from .forms import CreateStatusMessageForm
 
 # Create your views here.
@@ -39,22 +39,23 @@ class ShowProfilePageView(DetailView):
     
 class CreateStatusMessageView(CreateView):
     """A view to create a new StatusMessage and associate it with a Profile."""
-    model = StatusMessage
-    form_class = CreateStatusMessageForm  # Using our new form
+    form_class = CreateStatusMessageForm  # Using form
     template_name = "mini_fb/create_status_form.html"
 
     def form_valid(self, form):
         """Attach the correct Profile to the StatusMessage before saving."""
         profile_id = self.kwargs['pk']  # Get the profile's ID from the URL
-        profile = Profile.objects.filter(pk=profile_id).first()  # Fetch Profile 
+        profile = Profile.objects.get(pk=profile_id)  # Fetch Profile instance
 
-        if profile:  # Ensure the profile exists
-            form.instance.profile = profile  # Attach it to the StatusMessage
-            return super().form_valid(form)
-        else:
-            # If no profile is found, redirect back to the home page or profile list
-            return render(self.request, "mini_fb/error.html", {"message": "Profile not found."})
+        form.instance.profile = profile  # Attach it to the StatusMessage
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        """Ensure profile context is available in the template."""
+        context = super().get_context_data(**kwargs)
+        context["profile"] = Profile.objects.get(pk=self.kwargs['pk'])  # Fetch the profile
+        return context
 
     def get_success_url(self):
         """Redirect back to the Profile page after posting a status message."""
-        return reverse('mini_fb:show_profile', args=[self.kwargs['pk']])
+        return reverse('mini_fb:show_profile', kwargs={'pk': self.kwargs['pk']})
