@@ -1,10 +1,12 @@
 {% extends 'mini_fb/base.html' %}
-
 {% load static %}
 
 {% block content %}
 <div class="profile-header">
     <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
+    <a href="{% url 'mini_fb:update_status' profile.pk %}">Update</a> |
+    <a href="{% url 'mini_fb:delete_status' profile.pk %}">Delete</a>
+
 </div>
 
 <main class="profile-container">
@@ -27,12 +29,20 @@
                     <strong>Posted at {{ status.timestamp }}</strong>
                     <p>{{ status.message }}</p>
                 </div>
+
+                <!-- Display Images -->
+                {% for img in status.get_images %}
+                <img src="{{ img.image_file.url }}" alt="{{ img.caption }}">
+                {% endfor %}
             </article>
             {% endfor %}
         {% else %}
             <p>No status messages available.</p>
         {% endif %}
     </section>
+    <a href="{% url 'mini_fb:update_profile' profile.pk %}">Update Profile</a>
+    
 </main>
+
 
 {% endblock %}
