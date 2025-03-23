@@ -147,3 +147,176 @@ button:hover,
 input[type="submit"]:hover {
     background-color: #166fe5;
 }
+
+/* Profile Friends */
+
+.profile-friends {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.profile-friends h2 {
+    color: #1877f2;
+    margin-bottom: 10px;
+}
+
+.profile-friends ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-friends li {
+    margin-bottom: 8px;
+}
+
+.profile-friends a {
+    color: #21187D;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.profile-friends a:hover {
+    text-decoration: underline;
+}
+
+/*  FRIEND SUGGESTIONS PAGE  */
+.friend-suggestions-page {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 700px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.friend-suggestions-page h2 {
+    color: #1877f2;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.friend-suggestions-page ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.friend-suggestions-page li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #e8f0fe;
+    border-radius: 6px;
+}
+
+.friend-suggestions-page a {
+    color: #21187D;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.friend-suggestions-page a:hover {
+    text-decoration: underline;
+}
+
+/* NEWS FEED PAGE */
+.news-feed {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 700px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.news-feed h2 {
+    color: #1877f2;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.news-feed article {
+    background-color: #f0f2f5;
+    border-left: 5px solid #1877f2;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.news-feed article h4 {
+    margin: 0 0 10px;
+    color: #21187D;
+}
+
+.news-feed article p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+/*  STATUS IMAGES */
+.profile-status img,
+.news-feed img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 2px solid #1877f2;
+}
+
+/*  FRIEND CARD LIST  */
+.friend-card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0;
+    list-style: none;
+}
+
+.friend-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.friend-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 3px solid #1877f2;
+}
+
+.friend-profile-pic {
+    width: 20%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #1877f2;
+    margin-bottom: 10px;
+}
+
+
+.friend-card a {
+    color: #21187D;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+}
+
+.friend-card a:hover {
+    text-decoration: underline;
+}

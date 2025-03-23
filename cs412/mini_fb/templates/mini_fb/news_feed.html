@@ -1,0 +1,20 @@
+{% extends 'mini_fb/base.html' %}
+{% block content %}
+<div class="news-feed">
+<h2>{{ profile.first_name }}'s News Feed</h2>
+
+{% for status in feed %}
+    <article>
+        <h4>
+            {{ status.profile.first_name }} {{ status.profile.last_name }}
+            ({{ status.timestamp }})
+        </h4>
+        <p>{{ status.message }}</p>
+    </article>
+{% empty %}
+    <p>No updates yet.</p>
+{% endfor %}
+
+<a href="{% url 'mini_fb:show_profile' profile.pk %}">Back to Profile</a>
+</div>
+{% endblock %}

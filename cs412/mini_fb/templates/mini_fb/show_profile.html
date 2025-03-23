@@ -40,7 +40,26 @@
             <p>No status messages available.</p>
         {% endif %}
     </section>
+    <section class="profile-friends">
+        <h2>Friends</h2>
+        {% if profile.get_friends %}
+            <ul class="friend-card-list">
+                {% for friend in profile.get_friends %}
+                <li class="friend-card">
+                    <img class="friend-profile-pic" src="{{ friend.profile_image_url }}" alt="{{ friend.first_name }} {{ friend.last_name }}">
+                    <a href="{% url 'mini_fb:show_profile' friend.pk %}">
+                        {{ friend.first_name }} {{ friend.last_name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No friends yet.</p>
+        {% endif %}
+    </section>    
     <a href="{% url 'mini_fb:update_profile' profile.pk %}">Update Profile</a>
+    <a href="{% url 'mini_fb:friend_suggestions' profile.pk %}">View Friend Suggestions</a>
+    <a href="{% url 'mini_fb:news_feed' profile.pk %}">View News Feed</a>
     
 </main>
 

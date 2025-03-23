@@ -2,7 +2,7 @@
 View definitions for the mini_fb application.
 """
 
-
+from django.views import View
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render
 from django.urls import reverse
@@ -108,3 +108,35 @@ class DeleteStatusMessageView(DeleteView):
 
     def get_success_url(self):
         return reverse('mini_fb:show_profile', kwargs={'pk': self.object.profile.pk})
+    
+class AddFriendView(View):
+    """Adds a friend and redirects to profile page."""
+    def dispatch(self, request, *args, **kwargs):
+        pk = self.kwargs.get("pk")
+        other_pk = self.kwargs.get("other_pk")
+        profile = Profile.objects.get(pk=pk)
+        other = Profile.objects.get(pk=other_pk)
+
+        profile.add_friend(other)
+        return reverse('mini_fb:show_profile', kwargs={'pk': self.object.profile.pk})
+    
+class ShowFriendSuggestionsView(DetailView):
+    model = Profile
+    template_name = "mini_fb/friend_suggestions.html"
+    context_object_name = "profile"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.get_object()
+        context['suggestions'] = profile.get_friend_suggestions()
+        return context
+class ShowNewsFeedView(DetailView):
+    model = Profile
+    template_name = "mini_fb/news_feed.html"
+    context_object_name = "profile"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = self.get_object()
+        context["feed"] = profile.get_news_feed()
+        return context
