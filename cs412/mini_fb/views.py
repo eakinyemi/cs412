@@ -62,6 +62,7 @@ class CreateStatusMessageView(CreateView):
         profile = Profile.objects.get(pk=profile_id)  # Fetch Profile instance
 
         form.instance.profile = profile  # Attach it to the StatusMessage
+        sm=form.save()
 
         # Handle image uploads
         files = self.request.FILES.getlist('files')

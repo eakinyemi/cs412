@@ -32,7 +32,7 @@
 
                 <!-- Display Images -->
                 {% for img in status.get_images %}
-                <img src="{{ img.image_file.url }}" alt="{{ img.caption }}">
+                    <img src="{{ img.image_file.url }}" alt="Status Image">
                 {% endfor %}
             </article>
             {% endfor %}
