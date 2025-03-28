@@ -7,16 +7,16 @@
         {% for suggestion in suggestions %}
         <li class="friend-card">
             <img class="friend-profile-pic" src="{{ suggestion.profile_image_url }}" alt="{{ suggestion.first_name }}">
-            <a href="{% url 'mini_fb:show_profile' suggestion.pk %}">
+            <a href="{% url 'mini_fb:show_profile' %}">
                 {{ suggestion.first_name }} {{ suggestion.last_name }}
             </a>
-            <a href="{% url 'mini_fb:add_friend' profile.pk suggestion.pk %}" style="margin-top: 8px;">Add Friend</a>
+            <a href="{% url 'mini_fb:add_friend' suggestion.pk %}" style="margin-top: 8px;">Add Friend</a>
         </li>
         {% empty %}
         <p>No suggestions available.</p>
         {% endfor %}
     </ul>
 
-    <a href="{% url 'mini_fb:show_profile' profile.pk %}">← Back to Profile</a>
+    <a href="{% url 'mini_fb:show_profile' %}">← Back to Profile</a>
 </div>
 {% endblock %}

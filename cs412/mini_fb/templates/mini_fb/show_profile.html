@@ -4,9 +4,12 @@
 {% block content %}
 <div class="profile-header">
     <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
-    <a href="{% url 'mini_fb:update_status' profile.pk %}">Update</a> |
-    <a href="{% url 'mini_fb:delete_status' profile.pk %}">Delete</a>
-
+    {% if user.is_authenticated and user == profile.user %}
+    <a href="{% url 'mini_fb:update_profile' %}">Update Profile</a>
+    <a href="{% url 'mini_fb:friend_suggestions'  %}">View Friend Suggestions</a>
+    <a href="{% url 'mini_fb:news_feed' %}">View News Feed</a>
+    {% endif %}
+    
 </div>
 
 <main class="profile-container">
@@ -28,6 +31,11 @@
                 <div>
                     <strong>Posted at {{ status.timestamp }}</strong>
                     <p>{{ status.message }}</p>
+
+                    {% if request.user.is_authenticated and request.user.profile == status.profile %}
+                        <a href="{% url 'mini_fb:update_status' status.pk %}">Update</a>
+                        <a href="{% url 'mini_fb:delete_status' status.pk %}">Delete</a>
+                    {% endif %}
                 </div>
 
                 <!-- Display Images -->
@@ -57,9 +65,6 @@
             <p>No friends yet.</p>
         {% endif %}
     </section>    
-    <a href="{% url 'mini_fb:update_profile' profile.pk %}">Update Profile</a>
-    <a href="{% url 'mini_fb:friend_suggestions' profile.pk %}">View Friend Suggestions</a>
-    <a href="{% url 'mini_fb:news_feed' profile.pk %}">View News Feed</a>
     
 </main>
 

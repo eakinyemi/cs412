@@ -16,13 +16,30 @@
 
         <!-- Navigation Bar -->
         <nav>
+            {% if request.user.is_authenticated %}
+            Logged in user: {{ request.user.username }}
+            {%else%}
+            No User Logged In
+            {%endif%}
+
             {% if request.user.is_authenticated and request.user.profile %}
                 <a href="{% url 'mini_fb:show_all_profiles' %}">All Profiles</a>
-                <a href="{% url 'mini_fb:show_profile' request.user.profile.pk %}">My Profile</a>
-                <a href="{% url 'mini_fb:create_status_form' request.user.profile.pk %}">Create Status Message</a>
+                <a href="{% url 'mini_fb:show_profile'  %}">My Profile</a>
+                <a href="{% url 'mini_fb:create_status_form' %}">Create Status Message</a>
             {% else %}
                 <a href="{% url 'mini_fb:show_all_profiles' %}">All Profiles</a>
                 <a href="{% url 'mini_fb:create_profile' %}">Create Profile</a>
+            {% endif %}
+            <!-- Add: URLs for authentication -->
+            {% if request.user.is_authenticated %}                    
+            <form method="POST" action="{% url 'mini_fb:logout' %}">
+                {% csrf_token %}
+                <button type="submit">
+                    Log out
+                </button>
+            </form>
+            {% else %}
+            <a href="{% url 'mini_fb:login' %}">Log in</a>
             {% endif %}
         </nav>
 

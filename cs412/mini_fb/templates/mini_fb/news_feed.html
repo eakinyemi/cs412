@@ -10,11 +10,15 @@
             ({{ status.timestamp }})
         </h4>
         <p>{{ status.message }}</p>
+        <!-- Display Images -->
+        {% for img in status.get_images %}
+        <img src="{{ img.image_file.url }}" alt="Status Image">
+    {% endfor %}
     </article>
 {% empty %}
     <p>No updates yet.</p>
 {% endfor %}
 
-<a href="{% url 'mini_fb:show_profile' profile.pk %}">Back to Profile</a>
+<a href="{% url 'mini_fb:show_profile'%}">Back to Profile</a>
 </div>
 {% endblock %}

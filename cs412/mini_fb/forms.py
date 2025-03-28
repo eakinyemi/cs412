@@ -1,6 +1,7 @@
 from django import forms
 from .models import Profile, StatusMessage
 
+
 class CreateProfileForm(forms.ModelForm):
     """A form to create a new Profile."""
     

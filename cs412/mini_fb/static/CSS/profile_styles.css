@@ -47,7 +47,7 @@ nav a:hover {
 
 .profile-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     background: white;
     padding: 20px;

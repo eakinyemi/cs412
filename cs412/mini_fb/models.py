@@ -8,7 +8,7 @@ from django.urls import reverse
 
 class Profile(models.Model):
     """Model representing a Facebook-like user profile."""
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile", default=1)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     city = models.CharField(max_length=100)

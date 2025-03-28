@@ -4,7 +4,7 @@
 <h1>Post a New Status</h1>
 
 <!-- Status Message Form -->
-<form method="POST" action="{% url 'mini_fb:create_status_form' profile.pk %}" enctype="multipart/form-data">
+<form method="POST" action="{% url 'mini_fb:create_status_form' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <table>
         {{ form.as_table }}  
@@ -16,6 +16,6 @@
     <input type="submit" name="submit" value="Submit">
 </form>
 
-<a href="{% url 'mini_fb:show_profile' request.user.profile.pk %}">Back to Profile</a>
+<a href="{% url 'mini_fb:show_profile'  %}">Back to Profile</a>
 
 {% endblock %}
