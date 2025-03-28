@@ -5,7 +5,7 @@ View definitions for the mini_fb application.
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import Profile, StatusMessage, Image, StatusImage
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
@@ -164,7 +164,7 @@ class AddFriendView(LoginRequiredMixin, View):
         except Profile.DoesNotExist:
             pass  # You could add a message here if you want
 
-        return reverse("mini_fb:show_profile")
+        return redirect("mini_fb:show_profile")
     
 class ShowFriendSuggestionsView(DetailView, LoginRequiredMixin):
     model = Profile
@@ -201,18 +201,3 @@ class ShowNewsFeedView(DetailView, LoginRequiredMixin):
         return context
 
 
-class UserRegistrationView(CreateView):
-    '''A view to show/process the registration form to create a new User.'''
-
-    template_name = 'mini_fb/register.html'
-    form_class = UserCreationForm
-    model = User
-    
-    def form_valid(self, form):
-        user = form.save()
-        login(self.request, user)  # auto login after register
-        return reverse("mini_fb:create_profile")  # route them to create their profile
-
-    def get_success_url(self):
-        '''The URL to redirect to after creating a new User.'''
-        return reverse('login')
