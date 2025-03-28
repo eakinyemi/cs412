@@ -55,33 +55,29 @@ class CreateProfileView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["user_form"] = UserCreationForm(self.request.POST or None)
+        if "user_form" not in context:
+            context["user_form"] = UserCreationForm()
         return context
 
-    def post(self, request, *args, **kwargs):
-        profile_form = self.get_form()
+    def form_valid(self, form):
         user_form = UserCreationForm(self.request.POST)
 
-        if profile_form.is_valid() and user_form.is_valid():
-            # Create user
+        if user_form.is_valid():
+            # Save the user
             user = user_form.save()
 
-            # Create profile, link to user
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            profile.save()
+            # Attach user to profile and save it
+            form.instance.user = user
+            self.object = form.save()
 
-            # Manually assign self.object for CreateView internals
-            self.object = profile
+            # Optionally, log in the user
+            login(self.request, user)
 
-            return super().form_valid(profile_form)
-        
-        return self.render_to_response(
-            self.get_context_data(form=profile_form, user_form=user_form)
-        )
-
-        
-
+            return reverse("mini_fb:show_profile")
+        else:
+            return self.render_to_response(
+                self.get_context_data(form=form, user_form=user_form)
+            )
     def get_success_url(self):
         return reverse("mini_fb:login")
     
@@ -152,21 +148,22 @@ class DeleteStatusMessageView(DeleteView, LoginRequiredMixin):
     def get_success_url(self):
         return reverse("mini_fb:show_profile")
     
-class AddFriendView(View, LoginRequiredMixin):
-    """Adds a friend and redirects to profile page."""
+    
+class AddFriendView(LoginRequiredMixin, View):
     def get_login_url(self) -> str:
         '''return the URL required for login'''
         return reverse('login') 
     def get_object(self):
         return self.request.user.profile
-    
     def dispatch(self, request, *args, **kwargs):
-        pk = self.kwargs.get("pk")
         other_pk = self.kwargs.get("other_pk")
-        profile = Profile.objects.get(pk=pk)
-        other = Profile.objects.get(pk=other_pk)
+        try:
+            other = Profile.objects.get(pk=other_pk)
+            profile = request.user.profile
+            profile.add_friend(other)
+        except Profile.DoesNotExist:
+            pass  # You could add a message here if you want
 
-        profile.add_friend(other)
         return reverse("mini_fb:show_profile")
     
 class ShowFriendSuggestionsView(DetailView, LoginRequiredMixin):
