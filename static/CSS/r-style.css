@@ -1,0 +1,87 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+    color: #333;
+    display: flex;
+    flex-direction: column; /* Ensure the header is at the top */
+    height: 100vh;
+}
+
+/* Header */
+header {
+    background-color: #8B0000;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+/* Layout Container */
+.container {
+    display: grid;
+    height: 100vh;
+}
+
+/* Sidebar Navigation */
+nav {
+    background-color: #660000;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    width: 15vw;
+}
+
+nav a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+nav a:hover {
+    background-color: #8B0000;
+}
+
+/* Main Content */
+main {
+    margin-left: 24vw;
+    margin-right: 15vw;
+    background-color: white;
+    padding: 20px;
+    
+    
+    flex-grow: 1;
+}
+
+/* Order Form */
+form{
+    margin-top: 10vh;
+}
+
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #8B0000;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
