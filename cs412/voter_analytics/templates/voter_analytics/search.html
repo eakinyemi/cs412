@@ -1,0 +1,32 @@
+<!-- templates/voter_analytics/search.html -->
+<form action="{% url 'voter_analytics:voter_list' %}" method="get">
+    <table>
+        <tr><th>Party:</th><td><input type="text" name="party"></td></tr>
+        <tr><th>Min DOB (Year):</th><td><input type="text" name="min_dob"></td></tr>
+        <tr><th>Max DOB (Year):</th><td><input type="text" name="max_dob"></td></tr>
+        <tr>
+            <th>Voter Score:</th>
+            <td>
+                <select name="voter_score">
+                    <option value="">Any</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </td>
+        </tr>
+                <tr><th>Voted in:</th>
+            <td>
+                <label><input type="checkbox" name="v20state"> State</label>
+                <label><input type="checkbox" name="v21town"> Town</label>
+                <label><input type="checkbox" name="v21primary"> Primary</label>
+                <label><input type="checkbox" name="v22general"> General</label>
+                <label><input type="checkbox" name="v23town"> Town</label>
+            </td>
+        </tr>
+        <tr><td><input type="submit" value="Search"></td></tr>
+    </table>
+</form>

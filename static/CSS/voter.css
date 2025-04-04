@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #9fa2a7;
+    color: #333;
+}
+
+/* HEADER + NAV */
+header {
+    background-color: #1d3557;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav li {
+    display: inline;
+    margin-right: 15px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* TABLE STYLING */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: white;
+}
+
+th, td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+th {
+    background-color: #457b9d;
+    color: white;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* PAGINATION */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+/* VOTER CARD for voter_detail.html */
+.voter-card {
+    background-color: white;
+    padding: 25px;
+    margin: 20px auto;
+    border-radius: 15px;
+    max-width: 700px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.voter-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f0f4f8;
+}
+
+.voter-section h3 {
+    margin-top: 0;
+    color: #1d3557;
+}
+
+/* Links inside tables (e.g. voter list detail links) */
+a.voter-link {
+    color: #1d3557;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a.voter-link:hover {
+    color: #e63946;
+    text-decoration: underline;
+}

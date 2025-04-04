@@ -1,0 +1,27 @@
+{% extends 'voter_analytics/base.html' %}
+
+{% block content %}
+<h2>Voter Analytics – Graphs</h2>
+
+<!-- Reuse search form -->
+{% include 'voter_analytics/search.html' %}
+
+<!-- Birth Year Histogram -->
+<h3>Distribution of Voters by Year of Birth</h3>
+<div class="row">
+    {{ birth_year_graph|safe }}
+</div>
+
+<!-- Party Affiliation Pie Chart -->
+<h3>Party Affiliation Breakdown</h3>
+<div class="row">
+    {{ party_pie_chart|safe }}
+</div>
+
+<!-- Election Participation Bar Chart -->
+<h3>Voter Participation in Elections</h3>
+<div class="row">
+    {{ voting_histogram|safe }}
+</div>
+
+{% endblock %}
