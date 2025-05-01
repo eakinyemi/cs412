@@ -1,0 +1,84 @@
+{% extends 'playlist/base.html' %}
+{% block content %}
+
+
+
+<!-- ARTIST CIRCLE GRID -->
+<div class="artist-gallery">
+    {% for artist in artists %}
+        <a href="{% url 'playlist:artist_detail' artist.pk %}" class="artist-bubble">
+            {% if artist.profile_image %}
+                <img src="{{ artist.profile_image.url }}" alt="{{ artist.name }}">
+            {% else %}
+                <div class="no-artist-image">No Image</div>
+            {% endif %}
+            <p class="artist-name">{{ artist.name }}</p>
+        </a>
+    {% empty %}
+        <p>No artists available.</p>
+    {% endfor %}
+</div>
+
+<!-- Filter Options -->
+<!-- <div class="filter-options">
+    <form method="get">
+        <label for="filter">Sort / Filter by:</label>
+        <select name="filter" id="filter" onchange="this.form.submit()">
+            <option value="">-- Select --</option>
+            <option value="alphabetical" {% if request.GET.filter == 'alphabetical' %}selected{% endif %}>
+                Alphabetical (A-Z)
+            </option>
+            <option value="artist" {% if request.GET.filter == 'artist' %}selected{% endif %}>
+                Artist
+            </option>
+            {% for y in years %}
+                <option value="year_{{ y }}" {% if request.GET.filter == 'year_'|add:y|stringformat:"s" %}selected{% endif %}>
+                    {{ y }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+</div> -->
+
+
+
+
+<!-- SONG LIST -->
+<h2>Songs</h2>
+<section class="song-list">
+    <table>
+        <thead>
+            <tr>
+                <th> Song</th>
+                <th>By Artist</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for song in songs %}
+            <tr class="song-row">
+                <td>
+                    <a href="{% url 'playlist:song_detail' song.id %}">
+                        {{ song.title }}
+                    </a>
+                </td>
+                <td>
+                    {% with song.albums.first as album %}
+                        {% if album %}
+                            {{ album.artist.name }}
+                        {% else %}
+                            Unknown Artist
+                        {% endif %}
+                    {% endwith %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="2">No songs found.</td></tr>
+        {% endfor %}
+        
+        </tbody>
+    </table>
+</section>
+
+{% endblock %}
+
+

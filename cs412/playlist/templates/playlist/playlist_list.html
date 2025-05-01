@@ -1,0 +1,26 @@
+{% extends 'playlist/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="section-title">All Playlists</h1>
+    
+    <div class="playlist-grid">
+        {% for playlist in playlists %}
+        <div class="playlist-card">
+            {% if playlist.playlist_image %}
+                <img src="{{ playlist.playlist_image.url }}" alt="{{ playlist.name }}" class="playlist-img">
+            {% endif %}
+                <h3>{{ playlist.name }}</h3>
+                <p>Created by: {{ playlist.user_email }}</p>
+                <a href="{% url 'playlist:playlist_detail' playlist.pk %}" class="playlist-link">View Playlist</a>
+        </div>
+        {% empty %}
+        <p>No playlists found.</p>
+        {% endfor %}
+    </div>
+
+    <div class="create-button-wrapper">
+        <a href="{% url 'playlist:playlist_create' %}" class="button">+ Create New Playlist</a>
+    </div>
+</div>
+{% endblock %}

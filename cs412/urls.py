@@ -29,6 +29,7 @@ urlpatterns = [
     path('mini_fb/', include('cs412.mini_fb.urls')),
     path('blog/', include('cs412.blog.urls')),
     path('voter_analytics/', include('cs412.voter_analytics.urls')),
+    path('playlist/', include('cs412.playlist.urls')),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

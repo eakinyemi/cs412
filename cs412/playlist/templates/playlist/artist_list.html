@@ -1,0 +1,20 @@
+{% extends 'playlist/base.html' %}
+
+{% block content %}
+<h1>Artists</h1>
+<div class="artist-gallery">
+    {% for artist in artists %}
+        <a href="{% url 'playlist:artist_detail' artist.pk %}" class="artist-bubble">
+            {% if artist.profile_image %}
+                <img src="{{ artist.profile_image.url }}" alt="{{ artist.name }}">
+            {% else %}
+                <div class="no-artist-image">No Image</div>
+            {% endif %}
+            <p class="artist-name">{{ artist.name }}</p>
+        </a>
+    {% empty %}
+        <p>No artists available.</p>
+    {% endfor %}
+</div>
+{% endblock %}
+

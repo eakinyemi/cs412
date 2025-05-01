@@ -1,0 +1,22 @@
+
+{% extends 'playlist/base.html' %}
+
+{% block content %}
+<div class="add-song-page">
+    <h2>Add a Song to {{ playlist.name }}</h2>
+
+    <form method="post" style="margin-top: 20px;">
+        {% csrf_token %}
+        <div class="song-selection">
+            {% for song in songs %}
+                <div class="song-option">
+                    <input type="radio" name="song_id" value="{{ song.id }}" id="song{{ song.id }}">
+                    <label for="song{{ song.id }}">{{ song.title }}</label>
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="submit-button">Add Selected Song</button>
+    </form>
+</div>
+{% endblock %}

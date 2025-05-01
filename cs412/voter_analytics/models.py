@@ -40,7 +40,7 @@ class Voter(models.Model):
         # Clear out existing records to prevent duplicates
         Voter.objects.all().delete()
 
-        file = open(filename, 'r', encoding='utf-8')
+        file = open(filename, 'r',)
         header = file.readline().strip().split(',')
         print(f"Header columns: {header}")
 

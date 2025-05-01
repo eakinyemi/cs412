@@ -1,0 +1,67 @@
+<!-- templates/playlist/playlist_detail.html -->
+{% extends 'playlist/base.html' %}
+{% block content %}
+<div class="playlist-detail-container">
+    <div class="playlist-header">
+        {% if playlist.playlist_image %}
+            <img src="{{ playlist.playlist_image.url }}" alt="{{ playlist.name }} image" class="playlist-cover">
+        {% endif %}
+        <h1 class="playlist-title">{{ playlist.name }}</h1>
+        <p><strong>Created by:</strong> {{ playlist.user_email }}</p>
+        <p><strong>Total songs:</strong> {{ playlist.total_songs }}</p>
+    </div>
+
+    <div class="playlist-actions">
+        <a href="{% url 'playlist:add_song_page' playlist.id %}" class="action-button">Add Song</a>
+        <a href="{% url 'playlist:add_album_page' playlist.id %}" class="action-button">Add Album</a>
+    </div>
+
+    <form method="post" action="{% url 'playlist:manage_playlist_entries' playlist.id %}">
+        {% csrf_token %}
+        <div class="playlist-entries">
+            {% for entry in entries %}
+                {% if entry.song %}
+                <div class="entry-item">
+                    <input type="checkbox" name="selected_entries" value="{{ entry.id }}" class="entry-select">
+
+                    <div class="entry-image">
+                        {% if entry.song.song_image %}
+                            <img src="{{ entry.song.song_image.url }}" alt="{{ entry.song.title }}">
+                        {% elif entry.album and entry.album.album_image %}
+                            <img src="{{ entry.album.album_image.url }}" alt="{{ entry.album.title }}">
+                        {% elif entry.song.albums.first and entry.song.albums.first.album_image %}
+                            <img src="{{ entry.song.albums.first.album_image.url }}" alt="Album Image">
+                        {% else %}
+                            <div class="no-image">No Image Available</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="entry-details">
+                        <p class="song-title">{{ entry.song.title }}</p>
+                        {% if entry.user_note %}
+                            <p class="user-note">📝 {{ entry.user_note }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            {% empty %}
+                <p>No songs in this playlist yet.</p>
+            {% endfor %}
+        </div>
+
+        <div class="bulk-actions">
+            <button type="submit" name="action" value="delete" class="action-button delete">Delete Selected</button>
+            <select name="move_to_playlist_id">
+                <option value="">-- Move to Playlist --</option>
+                {% for pl in all_playlists %}
+                    {% if pl.id != playlist.id %}
+                        <option value="{{ pl.id }}">{{ pl.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <button type="submit" name="action" value="move" class="action-button move">Move Selected</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

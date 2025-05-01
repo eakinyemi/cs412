@@ -1,0 +1,40 @@
+{% extends 'playlist/base.html' %}
+
+{% block content %}
+<div class="song-detail-container">
+    <h2>{{ song.title }}</h2>
+
+    <!-- Display image -->
+    <div class="song-detail-image">
+        {% if display_image_url %}
+            <img src="{{ display_image_url }}" alt="{{ song.title }}">
+        {% else %}
+            <div class="no-image">No Image Available</div>
+        {% endif %}
+    </div>
+
+    <!-- Albums -->
+    <section class="song-section">
+        <h3>Appears in Album(s):</h3>
+        <ul>
+            {% for album in song.albums.all %}
+                <li><a href="{% url 'playlist:album_detail' album.pk %}">{{ album.title }}</a> ({{ album.artist.name }})</li>
+            {% empty %}
+                <li>This song isn’t on any album.</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Playlists -->
+    <section class="song-section">
+        <h3>Included in Playlist(s):</h3>
+        <ul>
+            {% for entry in song.playlistentry_set.all %}
+                <li><a href="{% url 'playlist:playlist_detail' entry.playlist.pk %}">{{ entry.playlist.name }}</a></li>
+            {% empty %}
+                <li>This song hasn’t been added to any playlists.</li>
+            {% endfor %}
+        </ul>
+    </section>
+</div>
+{% endblock %}

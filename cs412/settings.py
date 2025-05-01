@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'cs412.mini_fb',
     'cs412.blog',
     'cs412.voter_analytics',
+    'cs412.playlist',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,26 @@
+{% extends 'playlist/base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>All Albums</h2>
+
+<div class="album-grid">
+    {% for album in albums %}
+        <div class="album-card"> <a href= "{% url 'playlist:album_detail' album.id %}">
+            {% if album.album_image %}
+                <img src="{{ album.album_image.url }}" alt="{{ album.title }}" class="album-image">
+            {% else %}
+                <img src="{% static 'default_album.png' %}" alt="No album cover" class="album-image">
+            {% endif %}
+            <div class="album-info">
+                <h3>{{ album.title }}</h3>
+                <p><strong>Artist:</strong> {{ album.artist.name }}</p>
+                <p><strong>Release Year:</strong> {{ album.release_date.year }}</p>
+                <p><strong>Tracks:</strong> {{ album.songs.count }}</p>
+            </div>
+        </div>
+    {% empty %}
+        <p>No albums found.</p>
+    {% endfor %}
+</div>
+{% endblock %}
