@@ -7,13 +7,14 @@
             <img src="{{ playlist.playlist_image.url }}" alt="{{ playlist.name }} image" class="playlist-cover">
         {% endif %}
         <h1 class="playlist-title">{{ playlist.name }}</h1>
-        <p><strong>Created by:</strong> {{ playlist.user_email }}</p>
+        <p><strong>Created by:</strong> {{ playlist.owner }}</p>
         <p><strong>Total songs:</strong> {{ playlist.total_songs }}</p>
     </div>
 
     <div class="playlist-actions">
         <a href="{% url 'playlist:add_song_page' playlist.id %}" class="action-button">Add Song</a>
         <a href="{% url 'playlist:add_album_page' playlist.id %}" class="action-button">Add Album</a>
+        <a href="{% url 'playlist:playlist_delete' playlist.pk %}" class="action-button delete">Delete Playlist</a>
     </div>
 
     <form method="post" action="{% url 'playlist:manage_playlist_entries' playlist.id %}">
@@ -39,8 +40,9 @@
                     <div class="entry-details">
                         <p class="song-title">{{ entry.song.title }}</p>
                         {% if entry.user_note %}
-                            <p class="user-note">📝 {{ entry.user_note }}</p>
+                            <p class="user-note"> {{ entry.user_note }}</p>
                         {% endif %}
+                        <a href="{% url 'playlist:edit_entry_note' entry.pk %}">Edit Note</a>
                     </div>
                 </div>
                 {% endif %}

@@ -8,8 +8,15 @@
     <script src="{% static 'js/playlist.js' %}" defer></script>
 </head>
 <body>
+    
     <header>
         <h1><a href="{% url 'playlist:music_home' %}"> Playlist Central</a></h1>
+        {% if user.is_authenticated %}
+            <p>Welcome, {{ user.username }} | <a href="{% url 'playlist:logout' %}">Logout</a></p>
+        {% else %}
+            <p>Welcome, Guest | <a href="{% url 'playlist:login' %}?next={% url 'playlist:music_home' %}">Login</a>
+            <a href="{% url 'playlist:register' %}">Register</a>
+        {% endif %}
         <nav>
             <ul>
                 <li><a href="{% url 'playlist:songs' %}">All Songs</a></li>
@@ -21,6 +28,13 @@
     </header>
 
     <main>
+    {% if messages %}
+    <div class="message-bar">
+        {% for message in messages %}
+            <div class="message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
         {% block content %}
         {% endblock %}
     </main>

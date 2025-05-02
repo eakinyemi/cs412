@@ -2,12 +2,16 @@
 {% extends 'playlist/base.html' %}
 
 {% block content %}
-<div class="container">
-    <h1>Create New Playlist</h1>
+<div class="form-container">
+    <h2>{% if form.instance.pk %}Edit{% else %}Create{% endif %} Playlist</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="button">Create Playlist</button>
+        {{ form.as_p }}       
+
+        <button type="submit" class="action-button">Save Playlist</button>
     </form>
 </div>
+
+
 {% endblock %}
+

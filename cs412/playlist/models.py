@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class Artist(models.Model):
@@ -16,6 +17,7 @@ class Artist(models.Model):
 class Song(models.Model):
     title = models.CharField(max_length=100)
     song_image = models.ImageField(upload_to='song_images/', blank=True, null=True)
+    artist = models.ForeignKey('Artist', on_delete=models.SET_NULL, null=True, blank=True)
 
 
     def __str__(self):
@@ -38,10 +40,18 @@ class Album(models.Model):
 
 
 class Playlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_playlists', null=True, blank=True)
     name = models.CharField(max_length=100)
     playlist_image = models.ImageField(upload_to='playlist_images/', blank=True, null=True)
     user_email = models.EmailField()
     date_created = models.DateField(auto_now_add=True)
+    visibility = models.CharField(
+    max_length=20,
+    choices=[('public', 'Public'), ('private', 'Private'), ('shared', 'Shared')],
+    default='private'
+    )
+    shared_with = models.ManyToManyField(User, blank=True, related_name='shared_playlists')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='playlists', null=True, blank=True)
 
     def __str__(self):
         return self.name

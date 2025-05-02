@@ -1,9 +1,20 @@
 {% extends 'playlist/base.html' %}
+
 {% block content %}
 <h2>All Songs</h2>
-<ul>
+
+<div class="song-list">
     {% for song in songs %}
-        <li><a href="{% url 'playlist:song_detail' song.pk %}">{{ song.title }}</a></li>
+        <div class="song-card">
+            {% if song.song_image %}
+                <img src="{{ song.song_image.url }}" alt="{{ song.title }}">
+            {% elif song.albums.first and song.albums.first.album_image %}
+                <img src="{{ song.albums.first.album_image.url }}" alt="Album Image">
+            {% else %}
+                <div class="no-image">No Image</div>
+            {% endif %}
+            <p><a href="{% url 'playlist:song_detail' song.pk %}">{{ song.title }}</a></p>
+        </div>
     {% endfor %}
-</ul>
+</div>
 {% endblock %}

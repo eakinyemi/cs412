@@ -1,28 +1,27 @@
 
 {% extends 'playlist/base.html' %}
-
-
 {% block content %}
+<h2>Add Albums to {{ playlist.name }}</h2>
 
-<h2>Select an Album to Add</h2>
-
-<div class="album-grid">
-    {% for album in albums %}
-    <div class="album-item">
-        {% if album.album_image %}
-            <div class="album-image-container">
+<form method="post">
+    {% csrf_token %}
+    <div class="add-section">
+        {% for album in albums %}
+        <div class="add-item">
+            {% if album.album_image %}
                 <img src="{{ album.album_image.url }}" alt="{{ album.title }}">
-                <div class="hover-overlay">
-                    <form method="post" action="{% url 'playlist:add_album_to_playlist' playlist.id album.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="add-button">Add</button>
-                    </form>
-                </div>
-            </div>
-        {% endif %}
-        <p>{{ album.title }}</p>
+            {% endif %}
+            <input type="checkbox" name="album_ids" value="{{ album.id }}">
+            <label>{{ album.title }}</label>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
 
+    <div class="form-field">
+        <label for="user_note">Add a note (optional):</label>
+        <textarea name="user_note" rows="3" cols="50"></textarea>
+    </div>
+
+    <button type="submit" class="action-button">Add Selected Albums</button>
+</form>
 {% endblock %}

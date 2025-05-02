@@ -1,22 +1,29 @@
-
 {% extends 'playlist/base.html' %}
-
 {% block content %}
-<div class="add-song-page">
-    <h2>Add a Song to {{ playlist.name }}</h2>
+<h2>Add Songs to {{ playlist.name }}</h2>
 
-    <form method="post" style="margin-top: 20px;">
-        {% csrf_token %}
-        <div class="song-selection">
-            {% for song in songs %}
-                <div class="song-option">
-                    <input type="radio" name="song_id" value="{{ song.id }}" id="song{{ song.id }}">
-                    <label for="song{{ song.id }}">{{ song.title }}</label>
-                </div>
-            {% endfor %}
+<form method="post">
+    {% csrf_token %}
+    <div class="add-section">
+        {% for song in songs %}
+        <div class="add-item">
+            {% if song.song_image %}
+                <img src="{{ song.song_image.url }}" alt="{{ song.title }}">
+            {% elif song.albums.first and song.albums.first.album_image %}
+                <img src="{{ song.albums.first.album_image.url }}" alt="Album Image">
+            {% endif %}
+            <input type="checkbox" name="song_ids" value="{{ song.id }}">
+            <label>{{ song.title }}</label>
         </div>
+        {% endfor %}
+    </div>
 
-        <button type="submit" class="submit-button">Add Selected Song</button>
-    </form>
-</div>
+    <div class="form-field">
+        <label for="user_note">Add a note (optional):</label>
+        <textarea name="user_note" rows="3" cols="50"></textarea>
+    </div>
+
+    <button type="submit" class="action-button">Add Selected Songs</button>
+</form>
 {% endblock %}
+

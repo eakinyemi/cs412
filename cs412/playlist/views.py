@@ -1,9 +1,14 @@
-from django.views.generic import ListView, DetailView, CreateView, TemplateView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView, DeleteView, UpdateView
 from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from .models import Song, Artist, Album, Playlist, PlaylistEntry
 from django.db.models.functions import ExtractYear
+from .forms import AlbumForm, SongForm, ArtistForm, CustomUserCreationForm, AlbumCreationForm
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+
 
 # Homepage
 class MusicHomeView(TemplateView):
@@ -78,7 +83,10 @@ class ArtistDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         artist = self.object
-        context['albums'] = Album.objects.filter(artist=artist)
+        context['albums'] = artist.album_set.all()
+        context['solo_songs'] = artist.song_set.filter(albums=None)
+        context['album_count'] = artist.album_set.count()
+        context['solo_song_count'] = artist.song_set.filter(albums=None).count()
         return context
 
 # Album Views
@@ -103,38 +111,120 @@ class PlaylistListView(ListView):
     template_name = 'playlist/playlist_list.html'
     context_object_name = 'playlists'
 
-class PlaylistDetailView(DetailView):
-    model = Playlist
-    template_name = 'playlist/playlist_detail.html'
-    context_object_name = 'playlist'
+class PlaylistDetailView(LoginRequiredMixin, DetailView):
+    def get(self, request, pk):
+        try:
+            playlist = Playlist.objects.get(id=pk)
+        except Playlist.DoesNotExist:
+            messages.error(request, "Playlist does not exist.")
+            return redirect('playlist:playlist_list')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        playlist = self.object
+        # Handle access control
+        if not request.user.is_authenticated:
+            if playlist.visibility != 'public':
+                messages.warning(request, "You must be logged in to view this playlist.")
+                return redirect('register')  # Or 'login'
+        else:
+            if playlist.visibility == 'private' and playlist.owner != request.user:
+                messages.error(request, "No access to this private playlist.")
+                return redirect('playlist:playlist_list')
+            if playlist.visibility == 'shared' and request.user not in playlist.shared_with.all() and playlist.owner != request.user:
+                messages.error(request, "No access to this shared playlist.")
+                return redirect('playlist:playlist_list')
+
         entries = PlaylistEntry.objects.filter(playlist=playlist)
 
-        # Add raw entries to context for looping in template
-        context['entries'] = entries
+        # Get only playlists owned by current user, excluding the current playlist
+        user_playlists = Playlist.objects.filter(owner=request.user).exclude(id=playlist.id)
 
-        # Build song + image URL tuples
-        songs_with_images = []
-        for entry in entries:
-            if entry.song:
-                song_image = entry.song.song_image.url if entry.song.song_image else (
-                    entry.song.albums.first().album_image.url if entry.song.albums.first() and entry.song.albums.first().album_image else None
-                )
-                songs_with_images.append((entry.song, song_image))
+        context = {
+            'playlist': playlist,
+            'entries': entries,
+            'all_playlists': user_playlists,
+        }
+        return render(request, 'playlist/playlist_detail.html', context)
 
-        context['songs_with_images'] = songs_with_images
-        return context
-
-class PlaylistCreateView(CreateView):
+class PlaylistCreateView(LoginRequiredMixin, CreateView):
     model = Playlist
-    fields = ['name', 'user_email', 'playlist_image']
+    fields = ['name', 'playlist_image', 'visibility', 'shared_with']
     template_name = 'playlist/playlist_form.html'
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user  # Set owner
+        playlist = form.save()
+        playlist.shared_with.add(self.request.user)  # Give creator access if visibility is shared
+        return redirect('playlist:playlist_detail', pk=playlist.pk)
+
+    
+def register_user(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('playlist:music_home')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'playlist/register.html', {'form': form})
+
+def logout_user(request):
+    logout(request)
+    return redirect('playlist:music_home')
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('playlist:music_home')  # Redirect to music home page
+        else:
+            return render(request, 'playlist/login.html', {'error': 'Invalid credentials'})
+    return render(request, 'playlist/login.html')
+
+def access_playlist(request, pk):
+    try:
+        playlist = Playlist.objects.get(id=pk)
+    except Playlist.DoesNotExist:
+        messages.error(request, "The playlist you're trying to access does not exist.")
+        return redirect('playlist:playlist_list')
+
+    if not request.user.is_authenticated:
+        messages.error(request, "Please log in to view playlists.")
+        return redirect('playlist:playlist_list')
+
+    if playlist.visibility == 'private' and playlist.owner != request.user:
+        messages.error(request, "You don’t have access to this private playlist.")
+        return redirect('playlist:playlist_list')
+
+    if playlist.visibility == 'shared' and request.user not in playlist.shared_with.all() and playlist.owner != request.user:
+        messages.error(request, "You don’t have access to this shared playlist.")
+        return redirect('playlist:playlist_list')
+
+    return redirect('playlist:playlist_detail', pk=pk)
+
+
+class PlaylistDeleteView(LoginRequiredMixin, DeleteView):
+    model = Playlist
+    template_name = 'playlist/playlist_confirm_delete.html'
+    success_url = reverse_lazy('playlist:playlist_list')
+
+    def get_queryset(self):
+        # Restrict deletion to the owner
+        return Playlist.objects.filter(user=self.request.user)
+    
+class EditPlaylistEntryNoteView(LoginRequiredMixin, UpdateView):
+    model = PlaylistEntry
+    fields = ['user_note']
+    template_name = 'playlist/edit_note.html'
+
     def get_success_url(self):
-        return reverse('playlist_detail', kwargs={'pk': self.object.pk})
+        return reverse('playlist:playlist_detail', args=[self.object.playlist.id])
+
+    def get_queryset(self):
+        # User must own the playlist
+        return PlaylistEntry.objects.filter(playlist__user=self.request.user)
 
 # Add Song to Playlist
 def add_song_to_playlist(request, playlist_id, song_id):
@@ -163,44 +253,94 @@ def add_album_to_playlist(request, playlist_id, album_id):
         )
     return redirect(reverse('playlist:playlist_detail', kwargs={'pk': playlist_id}))
 
-# Add a song to playlist
+def add_artist(request):
+    if request.method == 'POST':
+        form = ArtistForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('playlist:artist_list')
+    else:
+        form = ArtistForm()
+    return render(request, 'playlist/add_artist.html', {'form': form})
+
 def add_song_page(request, playlist_id):
     playlist = Playlist.objects.get(id=playlist_id)
-    songs = Song.objects.all()
+    songs = Song.objects.exclude(playlistentry__playlist=playlist)
 
     if request.method == 'POST':
-        song_id = request.POST.get('song_id')
-        if song_id:
+        selected_ids = request.POST.getlist('song_ids')
+        user_note = request.POST.get('user_note', '')
+
+        for song_id in selected_ids:
             song = Song.objects.get(id=song_id)
             PlaylistEntry.objects.create(
                 playlist=playlist,
                 song=song,
-                added_on=timezone.now()
+                added_on=timezone.now(),
+                user_note=user_note,
             )
-            return redirect(reverse('playlist:playlist_detail', kwargs={'pk': playlist_id}))
+        return redirect('playlist:playlist_detail', pk=playlist.id)
 
     return render(request, 'playlist/add_song_page.html', {'playlist': playlist, 'songs': songs})
 
 
-# Add album to playlist — adds all its songs individually
+def add_song_to_artist(request, artist_id):
+    artist = Artist.objects.get(pk=artist_id)
+    
+    if request.method == 'POST':
+        form = SongForm(request.POST, request.FILES)
+        if form.is_valid():
+            song = form.save(commit=False)
+            song.artist = artist  # assign the artist to the song
+            song.save()
+            return redirect('playlist:artist_detail', pk=artist_id)
+    else:
+        form = SongForm()
+    
+    return render(request, 'playlist/add_song_to_artist.html', {
+        'form': form,
+        'artist': artist
+    })
+
 def add_album_page(request, playlist_id):
     playlist = Playlist.objects.get(id=playlist_id)
     albums = Album.objects.all()
 
     if request.method == 'POST':
-        album_id = request.POST.get('album_id')
-        if album_id:
+        selected_album_ids = request.POST.getlist('album_ids')
+        user_note = request.POST.get('user_note', '')
+
+        for album_id in selected_album_ids:
             album = Album.objects.get(id=album_id)
             for song in album.songs.all():
                 PlaylistEntry.objects.create(
                     playlist=playlist,
                     song=song,
                     album=album,
-                    added_on=timezone.now()
+                    added_on=timezone.now(),
+                    user_note=user_note,
                 )
-            return redirect(reverse('playlist:playlist_detail', kwargs={'pk': playlist_id}))
+        return redirect('playlist:playlist_detail', pk=playlist.id)
 
     return render(request, 'playlist/add_album_page.html', {'playlist': playlist, 'albums': albums})
+
+
+
+def add_album_to_artist(request, artist_id):
+    artist = Artist.objects.get(pk=artist_id)
+
+    if request.method == 'POST':
+        form = AlbumCreationForm(request.POST, request.FILES, artist=artist)
+        if form.is_valid():
+            form.save()
+            return redirect('playlist:artist_detail', pk=artist_id)
+    else:
+        form = AlbumCreationForm()
+
+    return render(request, 'playlist/add_album_to_artist.html', {
+        'form': form,
+        'artist': artist
+    })
 
 def manage_playlist_entries(request, playlist_id):
     if request.method == 'POST':

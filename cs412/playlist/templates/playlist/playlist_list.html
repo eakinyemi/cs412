@@ -11,16 +11,26 @@
                 <img src="{{ playlist.playlist_image.url }}" alt="{{ playlist.name }}" class="playlist-img">
             {% endif %}
                 <h3>{{ playlist.name }}</h3>
-                <p>Created by: {{ playlist.user_email }}</p>
-                <a href="{% url 'playlist:playlist_detail' playlist.pk %}" class="playlist-link">View Playlist</a>
+                <p>Created by: {{ playlist.owner }}</p>
+                
+                <form method="post" action="{% url 'playlist:access_playlist' playlist.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="playlist-link">View Playlist</button>
+                </form>
         </div>
         {% empty %}
         <p>No playlists found.</p>
         {% endfor %}
     </div>
 
+    {% if user.is_authenticated %}
     <div class="create-button-wrapper">
-        <a href="{% url 'playlist:playlist_create' %}" class="button">+ Create New Playlist</a>
+        <a href="{% url 'playlist:playlist_create' %}" class="button">Create New Playlist</a>
     </div>
+    {% else %}
+    <div class="create-button-wrapper">
+        <p>Log in to create your own playlist.</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

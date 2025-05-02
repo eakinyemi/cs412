@@ -19,26 +19,7 @@
     {% endfor %}
 </div>
 
-<!-- Filter Options -->
-<!-- <div class="filter-options">
-    <form method="get">
-        <label for="filter">Sort / Filter by:</label>
-        <select name="filter" id="filter" onchange="this.form.submit()">
-            <option value="">-- Select --</option>
-            <option value="alphabetical" {% if request.GET.filter == 'alphabetical' %}selected{% endif %}>
-                Alphabetical (A-Z)
-            </option>
-            <option value="artist" {% if request.GET.filter == 'artist' %}selected{% endif %}>
-                Artist
-            </option>
-            {% for y in years %}
-                <option value="year_{{ y }}" {% if request.GET.filter == 'year_'|add:y|stringformat:"s" %}selected{% endif %}>
-                    {{ y }}
-                </option>
-            {% endfor %}
-        </select>
-    </form>
-</div> -->
+
 
 
 

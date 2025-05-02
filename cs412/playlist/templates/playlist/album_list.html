@@ -4,9 +4,9 @@
 {% block content %}
 <h2>All Albums</h2>
 
-<div class="album-grid">
+<div class="album-grid-detail">
     {% for album in albums %}
-        <div class="album-card"> <a href= "{% url 'playlist:album_detail' album.id %}">
+        <div class="album-card large"> <a href= "{% url 'playlist:album_detail' album.id %}">
             {% if album.album_image %}
                 <img src="{{ album.album_image.url }}" alt="{{ album.title }}" class="album-image">
             {% else %}

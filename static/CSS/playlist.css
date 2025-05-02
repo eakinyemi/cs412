@@ -121,31 +121,145 @@ main {
     border: 3px dashed #999;
 }
 
-/* ALBUM SLIDESHOW */
-.album-slideshow {
-    display: flex;
-    overflow-x: auto;
-    gap: 1.2rem;
-    margin: 2rem 0;
-    padding-bottom: 1rem;
+.form-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.album-card {
-    flex: 0 0 auto;
+.form-container h2 {
+    margin-bottom: 1.5rem;
+    color: #003366;
+    text-align: center;
+}
+
+.add-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.add-item {
     width: 180px;
     text-align: center;
 }
 
-.album-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
+
+/* ALBUM SECTION */
+.album-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    
+    margin-top: 1rem;
+}
+
+
+
+.album-card {
+    width: 160px;
+    text-align: center;
+    background-color: white;
+    padding: 1rem;
     border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s ease;
 }
 
-.album-card img:hover {
-    transform: scale(1.05);
+.album-card:hover {
+    transform: translateY(-5px);
+}
+
+.album-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.album-card p {
+    font-weight: bold;
+    color: #4a90e2;
+    margin-top: 0.3rem;
+}
+
+.album-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.album-grid-detail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.album-card.large {
+    width: 220px;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.album-card.large:hover {
+    transform: translateY(-5px);
+}
+
+.album-card.large img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 0.75rem;
+}
+
+.album-card .album-info {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.album-info .album-title {
+    font-size: 1rem;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    margin: 0.25rem 0;
+}
+.album-title {
+    font-size: 1rem;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    margin: 0.25rem 0;
+}
+
+.album-artist {
+    font-size: 0.95rem;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.album-card a {
+    text-decoration: none;
+    color: inherit;
 }
 
 /* SONG TABLE */
@@ -165,6 +279,96 @@ main {
     background-color: #d0e6ff;
     cursor: pointer;
 }
+
+/* SONG LIST */
+.song-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.song-card {
+    width: 150px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 1rem;
+    transition: transform 0.2s ease;
+    
+}
+
+.song-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.song-card:hover {
+    transform: scale(1.03);
+}
+
+.song-card a {
+    text-decoration: none;
+    color: #003366;
+    font-weight: bold;
+}
+
+.song-card a:hover {
+    text-decoration: underline;
+}
+
+.song-card .no-image {
+    width: 100%;
+    height: 150px;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 0.85rem;
+    border-radius: 8px;
+}
+
+/* SOLO SONG STUFF */
+.solo-song-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.song-card {
+    width: 160px;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.song-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.song-card a {
+    text-decoration: none;
+    color: #4a90e2;
+    font-weight: bold;
+}
+
+.song-card a:hover {
+    text-decoration: underline;
+}
+
 
 /* FILTER OPTIONS */
 .filter-options {
@@ -445,38 +649,32 @@ select {
     margin-right: 1rem;
 }
 
-/* Modal styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    padding-top: 100px;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0,0,0,0.6);
+/* MESSAGES */
+.message-bar {
+    padding: 1rem;
+    margin: 1rem auto;
+    max-width: 800px;
 }
 
-.modal-content {
-    background-color: #f9f9f9;
-    margin: auto;
-    padding: 20px;
-    border: 2px solid #4a90e2;
-    width: 50%;
-    border-radius: 12px;
+.message {
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
 }
 
-.modal-buttons {
-    margin-top: 1rem;
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
+.message.error {
+    background-color: #ffe0e0;
+    color: #a80000;
 }
 
-.modal-buttons button {
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: #4a90e2;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
+.message.success {
+    background-color: #e0ffe4;
+    color: #007d1f;
 }
+
+.message.warning {
+    background-color: #fff7d6;
+    color: #a67c00;
+}
+

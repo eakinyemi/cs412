@@ -1,0 +1,13 @@
+<!-- templates/playlist/register.html -->
+{% extends 'playlist/base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Create an Account</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="action-button">Register</button>
+    </form>
+</div>
+{% endblock %}

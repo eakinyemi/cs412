@@ -16,5 +16,9 @@
         <p>No artists available.</p>
     {% endfor %}
 </div>
+
+<div class="create-button-wrapper">
+    <a href="{% url 'playlist:add_artist' %}" class="button"> Add New Artist</a>
+</div>
 {% endblock %}
 

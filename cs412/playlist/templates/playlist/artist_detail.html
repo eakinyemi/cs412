@@ -1,38 +1,69 @@
 {% extends 'playlist/base.html' %}
+
 {% block content %}
-
-<h2>{{ artist.name }}</h2>
-
-<!-- ARTIST INFO PANEL -->
-<section class="artist-profile">
-    <div class="artist-photo">
+<div class="artist-detail-container">
+    <div class="artist-header">
+        <h1>{{ artist.name }}</h1>
         {% if artist.profile_image %}
-            <img src="{{ artist.profile_image.url }}" alt="{{ artist.name }}">
+            <img src="{{ artist.profile_image.url }}" alt="{{ artist.name }}" class="artist-image">
+        {% endif %}
+        <div class="artist-info">
+            
+            <p><strong>Hometown:</strong> {{ artist.hometown }}</p>
+            <p><strong>Height:</strong> {{ artist.height }}</p>
+            <p><strong>Debut Year:</strong> {{ artist.debut_year }}</p>
+        
+        </div>
+
+        <div class="action-buttons">
+            <a href="{% url 'playlist:add_album_to_artist' artist.pk %}" class="action-button"> Add Album</a>
+            <a href="{% url 'playlist:add_song_to_artist' artist.pk %}" class="action-button"> Add Song</a>
+        </div>
+    </div>
+
+    <div class="albums-section">
+        <h2>Albums</h2>
+        {% if albums %}
+            <div class="album-grid">
+                {% for album in albums %}
+                    <div class="album-card">
+                        <a href="{% url 'playlist:album_detail' album.pk %}">
+                            {% if album.album_image %}
+                                <img src="{{ album.album_image.url }}" alt="{{ album.title }}">
+                            {% else %}
+                                <div class="no-image">No Image</div>
+                            {% endif %}
+                            <p>{{ album.title }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
         {% else %}
-            <div class="placeholder-square"> </div>
+            <p>This artist has no albums yet.</p>
         {% endif %}
     </div>
-    <div class="artist-info">
-        <p><strong>Hometown:</strong> {{ artist.hometown }}</p>
-        <p><strong>Height:</strong> {{ artist.height }} </p>
-        <p><strong>Debut Year:</strong> {{ artist.debut_year }}</p>
-        <p><strong>Albums Released:</strong> {{ artist.album_set.count }}</p>
-    </div>
-</section>
+    
 
-<!-- ALBUM SLIDESHOW -->
-<section class="album-slideshow">
-    <h3>Albums by {{ artist.name }}:</h3>
-    <div class="slideshow-container" id="slideshow">
-        {% for album in artist.album_set.all %}
-            <div class="slide">
-                <a href="{% url 'playlist:album_detail' album.pk %}">
-                    <img src="{{ album.album_image.url }}" alt="{{ album.title }}">
-                    <p>{{ album.title }}</p>
-                </a>
+    <div class="solo-song-list">
+        <h2>Singles</h2>
+        {% if solo_songs %}
+            <div class="solo-song-grid">
+                {% for song in solo_songs %}
+                    <div class="song-card">
+                        {% if song.song_image %}
+                            <img src="{{ song.song_image.url }}" alt="{{ song.title }}">
+                        {% elif song.albums.first and song.albums.first.album_image %}
+                            <img src="{{ song.albums.first.album_image.url }}" alt="Album Image">
+                        {% else %}
+                            <div class="no-image">No Image</div>
+                        {% endif %}
+                        <p><a href="{% url 'playlist:song_detail' song.pk %}">{{ song.title }}</a></p>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
+        {% else %}
+            <p>This artist has no solo songs yet.</p>
+        {% endif %}
     </div>
-</section>
-
+</div>
 {% endblock %}

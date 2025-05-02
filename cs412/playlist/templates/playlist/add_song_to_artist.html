@@ -1,0 +1,11 @@
+{% extends 'playlist/base.html' %}
+{% block content %}
+<div class="form-container">
+    <h2>Add a Song to {{ artist.name }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="action-button">Add Song</button>
+    </form>
+</div>
+{% endblock %}
