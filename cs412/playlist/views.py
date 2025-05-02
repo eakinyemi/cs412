@@ -210,6 +210,9 @@ class PlaylistDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'playlist/playlist_confirm_delete.html'
     success_url = reverse_lazy('playlist:playlist_list')
 
+    def get_queryset(self):
+        # User must own the playlist
+        return Playlist.objects.filter(owner=self.request.user)
     def dispatch(self, request, *args, **kwargs):
         playlist = self.get_object()
         if playlist.owner != request.user:
