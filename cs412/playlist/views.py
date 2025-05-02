@@ -206,13 +206,20 @@ def access_playlist(request, pk):
 
 
 class PlaylistDeleteView(LoginRequiredMixin, DeleteView):
-    model = Playlist
-    template_name = 'playlist/playlist_confirm_delete.html'
-    success_url = reverse_lazy('playlist:playlist_list')
+    def post(self, request, pk):
+        try:
+            playlist = Playlist.objects.get(id=pk)
+        except Playlist.DoesNotExist:
+            messages.error(request, "Playlist does not exist.")
+            return redirect('playlist:playlist_list')
 
-    def get_queryset(self):
-        # Restrict deletion to the owner
-        return Playlist.objects.filter(user=self.request.user)
+        if playlist.owner != request.user:
+            messages.error(request, "You do not have permission to delete this playlist.")
+            return redirect('playlist:playlist_list')
+
+        playlist.delete()
+        messages.success(request, "Playlist deleted successfully.")
+        return redirect('playlist:playlist_list')
     
 class EditPlaylistEntryNoteView(LoginRequiredMixin, UpdateView):
     model = PlaylistEntry
